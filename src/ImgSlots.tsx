@@ -164,7 +164,8 @@ const ImageSlots = (props: property) => {
     }
 
     return (
-        <div>
+        <div className="mainCont">
+            <div className="secondCont">
             {showCrop ? <Cropping
                 data={clickedImgIdx.current !== null ? imgObj![clickedImgIdx.current] : null}
                 clickedIndex={clickedImgIdx.current}
@@ -205,8 +206,9 @@ const ImageSlots = (props: property) => {
                 height={addButtonSize}
                 />
            
-            </div> 
+            </div>
          
+        </div>
         </div>
     )
 }
