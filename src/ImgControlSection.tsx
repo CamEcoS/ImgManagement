@@ -18,6 +18,7 @@ type ImgReactions = {
   height: number
   imgUpdate: (index: number, val: File | null, width?: number, height?: number) => void
   showCrop: (crop: boolean) => void
+  signature?:boolean
 
 }
 

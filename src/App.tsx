@@ -22,22 +22,22 @@ export default function App() {
 
   return (
     <div className="App">
-      <div 
-      className="cropTrigger" 
-      style={{width: window.innerWidth*0.15, borderRadius:window.innerWidth * 0.075, zIndex:0, position:"absolute"}}
-      onClick={() => setModal(!modal)}
-      
+      <div
+        className="cropTrigger"
+        style={{ width: window.innerWidth * 0.15, borderRadius: window.innerWidth * 0.075, zIndex: 0, position: "absolute" }}
+        onClick={() => setModal(!modal)}
+
       >
-        <img className="cropTrigImg" src={EdImg}/>
+        <img className="cropTrigImg" src={EdImg} />
         <h4
           className="cropTitle"
-         style={{ color:"white", float: "left", top: 10, marginLeft: (window.innerWidth*0.15 - textSize(20, modal ? "Close" : "Open", true))*0.5 - 15 }}
+          style={{ color: "white", float: "left", top: 10, marginLeft: (window.innerWidth * 0.15 - textSize(20, modal ? "Close" : "Open", true)) * 0.5 - 15 }}
         >
-        {modal ? "Close" : "Open"}
+          {modal ? "Close" : "Open"}
         </h4>
-      </div> 
-       {/* main conponent below */}
-     { modal ?  <ImgSlots attribute={mainProps} /> : null}
+      </div>
+      {/* main conponent below */}
+      {modal ? <ImgSlots attribute={mainProps} /> : null}
     </div>
   );
 }
