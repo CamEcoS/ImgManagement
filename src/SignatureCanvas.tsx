@@ -13,4 +13,4 @@ const SignatureCanvas = () => {
 
 }
 
-export default Signature
+export default SignatureCanvas
