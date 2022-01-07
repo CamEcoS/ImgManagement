@@ -1,71 +1,40 @@
-# Getting Started with Create React App
+# Get started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+download the code, run npm i then run npm start and finally click on the open Button
 
-## Available Scripts
+# Functionality
 
-In the project directory, you can run:
+0. this component is responsive
 
-### `npm start`
+1. ImgSlot is the main component, it holds an array of imgSlots that allows images to be dragged n dropped and well as manually adding an image. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. When an image is added or when a slot with a none default image is selected, options will appear below. If a slot has a default image and is clicked upon, manually selection appears
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+3. The options are
+    - edit image
+    - full screen
+    - crop
+    - remove  
 
-### `npm test`
+4. Cropping is a fixed modal that offers the option to crop or close and is responsive to almost bare minimum size
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. the component also has the ability to add more otional images and edit their title
 
-### `npm run build`
+# Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Simply add the component and pass an object of props to the **attribute** prop
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Here are the props below:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   mandatoryTitles: Array of string,
+   optionalAmount: number,
+   acceptedFormat: string,
+   defaultFile: string as image path,
+   currentState: to be used when connecting to backend is null for now, 
+   width: number,
+   height: number,
+   contHeight:can be null or 100 for full screen its in percentage,
+   contWidth:can be null or 100 for full screen its in percentage,
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Sandbox
