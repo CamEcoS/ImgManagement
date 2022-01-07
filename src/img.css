@@ -13,10 +13,6 @@ z-index: 1;
 
 .secondCont{
     position: fixed;
-    width:80%;
-    height:80%;
-    left:10%;
-    top:10%;
     overflow: scroll;
     background-color: white;
 }

@@ -14,7 +14,7 @@ type property = {
 
 const ImageSlots = (props: property) => {
 
-    const addButtonSize = props.attribute.width < 100 ? props.attribute.width/2.2 : 50
+    const addButtonSize = props.attribute.width < 100 ? props.attribute.width / 2.2 : 50
     const [imgObj, setImgObj] = useState<ImgObj[]>()
     const [flag, setFlag] = useState<boolean>(false)
     const clickedImgIdx = useRef<number | null>(null)
@@ -24,15 +24,15 @@ const ImageSlots = (props: property) => {
 
 
 
- 
+
     useEffect(() => {
-       if(editTitle.current === false){ 
-        //    if (clickedImgIdx.current !== null && imgObj![clickedImgIdx.current].data !== null) {
-        //        //here
-        //     if (imgObj![clickedImgIdx.current].data?.width! / imgObj![clickedImgIdx.current].data?.height! !== props.attribute.width / props.attribute.height) showCropCall(!showCrop)
-        //     else { if (showCrop) showCropCall(!showCrop) }
-        // }
-    } else {editTitle.current = false}
+        if (editTitle.current === false) {
+            //    if (clickedImgIdx.current !== null && imgObj![clickedImgIdx.current].data !== null) {
+            //        //here
+            //     if (imgObj![clickedImgIdx.current].data?.width! / imgObj![clickedImgIdx.current].data?.height! !== props.attribute.width / props.attribute.height) showCropCall(!showCrop)
+            //     else { if (showCrop) showCropCall(!showCrop) }
+            // }
+        } else { editTitle.current = false }
     }, [imgObj])
 
     useEffect(() => {
@@ -64,16 +64,16 @@ const ImageSlots = (props: property) => {
     }, [])
 
 
-    
 
-    function updateImages(index: number, val: File | File[] | string | null, width?: number, height?: number, name?:string): void {
-        const condition = (index+1)-props.attribute.mandatoryTitles.length
+
+    function updateImages(index: number, val: File | File[] | string | null, width?: number, height?: number, name?: string): void {
+        const condition = (index + 1) - props.attribute.mandatoryTitles.length
         if (val !== undefined) {
             if (val !== null) {
                 typeof val === "string" ? setImgObj(imgObj!.map((el, i) => i === index ? { ...el, cropData: val } : el))
-                    : getBase64(val, (t: any) => setImgObj(imgObj!.map((el, i) => i === index ? { ...el, data: { data: t, width: width!, height: height! }, title: el.type === "Mandatory" ? el.title : name! , cropData: null } : el)))
+                    : getBase64(val, (t: any) => setImgObj(imgObj!.map((el, i) => i === index ? { ...el, data: { data: t, width: width!, height: height! }, title: el.type === "Mandatory" ? el.title : name!, cropData: null } : el)))
             }
-            else setImgObj(imgObj!.map((el, i) => i === index ? { data: val, title:condition>0 ? `Image ${condition}` : el.title, cropData: val, type: el.type } : el))
+            else setImgObj(imgObj!.map((el, i) => i === index ? { data: val, title: condition > 0 ? `Image ${condition}` : el.title, cropData: val, type: el.type } : el))
         }
     }
 
@@ -82,8 +82,8 @@ const ImageSlots = (props: property) => {
         setShowCrop(!showCrop)
     }
 
-    function mappedBody(el:ImgObj, i:number, styleCondition:boolean):ReactElement{
-        return( <Dropzone key={i} accept={props.attribute.acceptedFormat}
+    function mappedBody(el: ImgObj, i: number, styleCondition: boolean): ReactElement {
+        return (<Dropzone key={i} accept={props.attribute.acceptedFormat}
             onDrop={acceptedImg => {
                 clickedImgIdx.current = i
                 getFileInfo(acceptedImg, (res: any | null) => {
@@ -92,7 +92,7 @@ const ImageSlots = (props: property) => {
             }}
         >
             {({ getRootProps }) => (
-                
+
                 <div key={i}
                     id={`${i}`}
                     {...getRootProps()}
@@ -128,7 +128,7 @@ const ImageSlots = (props: property) => {
                     </label>
 
 
-                    <form onSubmit={(e) => { e.preventDefault(); (document.activeElement! as HTMLElement).blur()}}>
+                    <form onSubmit={(e) => { e.preventDefault(); (document.activeElement! as HTMLElement).blur() }}>
                         <input
                             style={{
                                 cursor: el.type === "Mandatory" ? "default" : "text",
@@ -139,7 +139,7 @@ const ImageSlots = (props: property) => {
                             }}
                             value={el.title}
                             readOnly={el.type === "Mandatory" ? true : false}
-                            onChange={(e) => {editTitle.current = true ; setImgObj(imgObj!.map((element, idx) => idx === i ? { ...el, title: e.target.value } : element)) }}
+                            onChange={(e) => { editTitle.current = true; setImgObj(imgObj!.map((element, idx) => idx === i ? { ...el, title: e.target.value } : element)) }}
                         />
                     </form>
 
@@ -156,7 +156,7 @@ const ImageSlots = (props: property) => {
                         :
                         null
                     }
-                
+
                 </div>
             )}
         </Dropzone>
@@ -165,50 +165,56 @@ const ImageSlots = (props: property) => {
 
     return (
         <div className="mainCont">
-            <div className="secondCont">
-            {showCrop ? <Cropping
-                data={clickedImgIdx.current !== null ? imgObj![clickedImgIdx.current] : null}
-                clickedIndex={clickedImgIdx.current}
-                imgUpdate={updateImages}
-                showCrop={showCropCall}
-                disable={disableCrop.current}
-                width={props.attribute.width}
-                height={props.attribute.height}
-            /> : null}
-            {imgObj?.map((el, i) => {
-                const styleCondition = i !== 0 && imgObj![i - 1].type !== imgObj![i].type
-                return (
-                  styleCondition ? <> <br/>  {mappedBody(el,i,styleCondition)} </> : mappedBody(el,i,styleCondition)
-                )
-            })
-            }
-            <div 
-            id="addButton"
-            onClick={(e)=>{
-                setImgObj([...imgObj!, {
-                data: null,
-                title: `Image ${imgObj?.length! - props.attribute.mandatoryTitles.length + 1}`,
-                cropData: null,
-                type: "Optional",
-            }])
-            }}
-       
-            className="addButton"
-            style={{width:props.attribute.width, height:props.attribute.height, position:"relative"}}
-            >
-                <Image 
-                key={imgObj?.length! - props.attribute.mandatoryTitles.length + 1}
-                unoptimized
-                data-testid={`Img Add`}
-                onLoad={(e) => {}}
-                src={ add }
-                width={addButtonSize}
-                height={addButtonSize}
-                />
-           
+            <div className="secondCont"
+                style={{
+                    width: `${typeof props.attribute.contWidth === "number" ? props.attribute.contWidth : 100}%`,
+                    height: `${typeof props.attribute.contHeight === "number" ? props.attribute.contHeight : 100}%`,
+                    left: `${typeof props.attribute.contWidth === "number" ? 50 - props.attribute.contWidth!*0.5 : 0 }%`,
+                    top: `${typeof props.attribute.contHeight === "number" ? 50 - props.attribute.contHeight!*0.5 : 0 }%`
+                }}>
+                {showCrop ? <Cropping
+                    data={clickedImgIdx.current !== null ? imgObj![clickedImgIdx.current] : null}
+                    clickedIndex={clickedImgIdx.current}
+                    imgUpdate={updateImages}
+                    showCrop={showCropCall}
+                    disable={disableCrop.current}
+                    width={props.attribute.width}
+                    height={props.attribute.height}
+                /> : null}
+                {imgObj?.map((el, i) => {
+                    const styleCondition = i !== 0 && imgObj![i - 1].type !== imgObj![i].type
+                    return (
+                        styleCondition ? <> <br />  {mappedBody(el, i, styleCondition)} </> : mappedBody(el, i, styleCondition)
+                    )
+                })
+                }
+                <div
+                    id="addButton"
+                    onClick={(e) => {
+                        setImgObj([...imgObj!, {
+                            data: null,
+                            title: `Image ${imgObj?.length! - props.attribute.mandatoryTitles.length + 1}`,
+                            cropData: null,
+                            type: "Optional",
+                        }])
+                    }}
+
+                    className="addButton"
+                    style={{ width: props.attribute.width, height: props.attribute.height, position: "relative" }}
+                >
+                    <Image
+                        key={imgObj?.length! - props.attribute.mandatoryTitles.length + 1}
+                        unoptimized
+                        data-testid={`Img Add`}
+                        onLoad={(e) => { }}
+                        src={add}
+                        width={addButtonSize}
+                        height={addButtonSize}
+                    />
+
+                </div>
+
             </div>
-         
-        </div>
         </div>
     )
 }

@@ -6,6 +6,8 @@ export type categoryCount = {
     currentState: imageToIndicator[] | null
     width: number
     height: number
+    contHeight?: Number | null
+    contWidth?: Number | null
 }
 
 type imageToIndicator = {

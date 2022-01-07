@@ -16,7 +16,9 @@ export default function App() {
     defaultFile: imgDef,
     currentState: null, // for db data
     width: 150,
-    height: 150
+    height: 150,
+    contHeight:80,
+    contWidth:80
   })
 
 
