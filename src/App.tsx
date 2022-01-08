@@ -57,8 +57,8 @@ export default function App() {
         </h4>
       </div>
      
-      {/* {modal ? <ImgSlots attribute={mainProps} /> : null}  */}
-    {modal ? <Signature attribute={sigProps}/> : null}
+      {modal ? <ImgSlots attribute={mainProps} /> : null} 
+   
 
 
 
