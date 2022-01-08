@@ -13,6 +13,7 @@
     "react-dropzone": "^11.4.2",
     "react-image-crop": "^9.0.5",
     "react-scripts": "4.0.3",
+    "react-signature-canvas": "^1.0.3",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -40,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^17.0.37"
+    "@types/react": "^17.0.37",
+    "@types/react-signature-canvas": "^1.0.2"
   }
 }

@@ -164,7 +164,8 @@ const ImageSlots = (props: property) => {
     }
 
     return (
-        <div className="mainCont">
+        <div className="mainCont" >
+            {props.attribute.closeModal !== undefined && (props.attribute.contHeight! < 100 || props.attribute.contWidth! < 100) ? <h4 style={{ cursor: "pointer", left:"90%", top:"-2.5%", color:"white", position:"absolute" }} onClick={() =>props.attribute.closeModal !== undefined ? props.attribute.closeModal(false) : null}>close</h4> : null}
             <div className="secondCont"
                 style={{
                     width: `${typeof props.attribute.contWidth === "number" ? props.attribute.contWidth : 100}%`,

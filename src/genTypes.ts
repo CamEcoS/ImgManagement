@@ -8,6 +8,21 @@ export type categoryCount = {
     height: number
     contHeight?: Number | null
     contWidth?: Number | null
+    closeModal?:any
+}
+
+
+export type SigMain = {
+    defaultFile: string
+    currentState: SigRetrivedData[] | null
+    contHeight?: Number | null
+    contWidth?: Number | null
+    closeModal?:any
+}
+
+type SigRetrivedData = {
+    data: string
+    cropData: string | null
 }
 
 type imageToIndicator = {

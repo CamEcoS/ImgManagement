@@ -64,7 +64,7 @@ export default function Cropping(props: cropProps) {
       />
   {  !props.disable ?  <div 
       className="cropTrigger" 
-      style={{width: window.innerWidth*0.15, borderRadius:window.innerWidth * 0.075}}
+      style={{width: "15vw", borderRadius:"7.5vw"}}
       onClick={() => {
         if ((crop.height && crop.width) !== 0) {
           props.imgUpdate(props.clickedIndex!, getCroppedToBase64(currentImg.current, crop));

@@ -1,13 +1,20 @@
 import { useState } from 'react';
 import './App.css';
+import './img.css'
 import ImgSlots from './ImgSlots';
-import { categoryCount } from './genTypes'
+import { categoryCount, SigMain } from './genTypes'
 import EdImg from './assets/edit-image.png'
 import imgDef from './assets/imgTemp.jpg'
 import { textSize } from './alreadyExistant'
+import SignatureCanvas from './SignatureCanvas';
+import Signature from './Signature';
+
 
 
 export default function App() {
+  function close(){
+    setModal(false)
+   }
   const [modal, setModal] = useState<boolean>(false)
   const [mainProps, set] = useState<categoryCount>({
     mandatoryTitles: ["Loft", "Pipes", "Floor"],
@@ -17,17 +24,28 @@ export default function App() {
     currentState: null, // for db data
     width: 150,
     height: 150,
-    contHeight:80,
-    contWidth:80
+    contHeight:100,
+    contWidth:80,
+    closeModal:close
   })
+  
+  const [sigProps, setSig] = useState<SigMain>({
+    contHeight:80,
+    contWidth:80,
+    currentState:null,
+    defaultFile:imgDef,
+    closeModal:close
+  })
+
 
 
   return (
     <div className="App">
-      <div
-        className="cropTrigger"
-        style={{ width: window.innerWidth * 0.15, borderRadius: window.innerWidth * 0.075, zIndex: 0, position: "absolute" }}
-        onClick={() => setModal(!modal)}
+
+    <div
+        className="openTrigger"
+        style={{opacity: modal ? 0.3 : 1}}
+        onClick={() => setModal(true)}
 
       >
         <img className="cropTrigImg" src={EdImg} />
@@ -35,11 +53,15 @@ export default function App() {
           className="cropTitle"
           style={{ color: "white", float: "left", top: 10, marginLeft: (window.innerWidth * 0.15 - textSize(20, modal ? "Close" : "Open", true)) * 0.5 - 15 }}
         >
-          {modal ? "Close" : "Open"}
+          Open
         </h4>
       </div>
-      {/* main conponent below */}
-      {modal ? <ImgSlots attribute={mainProps} /> : null}
+     
+      {/* {modal ? <ImgSlots attribute={mainProps} /> : null}  */}
+    {modal ? <Signature attribute={sigProps}/> : null}
+
+
+
     </div>
   );
 }
