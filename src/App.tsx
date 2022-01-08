@@ -24,7 +24,7 @@ export default function App() {
     currentState: null, // for db data
     width: 150,
     height: 150,
-    contHeight:100,
+    contHeight:80,
     contWidth:80,
     closeModal:close
   })
@@ -58,7 +58,7 @@ export default function App() {
       </div>
      
       {modal ? <ImgSlots attribute={mainProps} /> : null} 
-   
+    {/* {modal ? <Signature attribute={sigProps}/> : null} */}
 
 
 
