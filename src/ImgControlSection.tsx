@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import './img.css'
 import { ControlObj, ImgObj } from './genTypes'
 import imgDef from './assets/imgTemp.jpg'

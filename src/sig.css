@@ -15,7 +15,8 @@
     .secondSigCont{
         position: fixed;
         overflow: scroll;
-        background: -webkit-linear-gradient(left, #141E30, #243B55); ;
+        background: -webkit-linear-gradient(left, #141E30, #243B55); 
+        z-index: 999;
     }
     
     .signatureCanvas {
@@ -27,16 +28,17 @@
 
       .sigOptionCont{
           position: absolute;
-          width: 100%;
-          left:calc(45% - 35px);
-          top:calc(20% - 55px)
+          width: 100%; 
+          top:calc(15% - 55px)
       }
 
       .optionDiv{
         display: inline-block;
+        position: relative;
         border-radius: 22.5px;
         height: 45px;
         width: 45px;
+        left:calc(40% - 17.5px);
         margin-right: 10%;
       }
 
@@ -53,10 +55,16 @@
           background-color: white;
           width: 100%;
           height: 70%;
-          top:20%
+          top:15%
       }
 
       .sigImgCont{
+          position: relative;
+          width: 100%;
+          height: 100%;
+      }
+
+      .sigSelect{
           width: 100%;
           height: 100%;
       }

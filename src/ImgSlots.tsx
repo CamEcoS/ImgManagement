@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, ReactElement, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, ReactElement, useLayoutEffect } from "react";
 import { categoryCount, ImgObj } from './genTypes'
 import Image from 'next/image'
 import './img.css'
 import SlotsModal from './ImgControlSection'
 import { getBase64, getFileInfo } from './alreadyExistant'
-import Dropzone, { DropzoneProps } from 'react-dropzone'
+import Dropzone from 'react-dropzone'
 import Cropping from "./Cropping";
 import add from './assets/add.png'
 
@@ -102,7 +102,9 @@ const ImageSlots = (props: property) => {
                     {i === 0 || styleCondition ? <h3 style={{ cursor: "default" }}>{imgObj![i].type}</h3> : null}
 
                     <label
-                        onClick={() => { clickedImgIdx.current = i; setFlag(!flag) }} style={{ width: props.attribute.width, height: props.attribute.height, cursor: "pointer" }} className="imgStyle"
+                        onClick={() => { clickedImgIdx.current = i; setFlag(!flag) }} 
+                        style={{ width: props.attribute.width, height: props.attribute.height, cursor: "pointer" }} 
+                        className="imgStyle"
                     >
                         <Image key={i}
                             unoptimized
@@ -118,6 +120,7 @@ const ImageSlots = (props: property) => {
                             className="imgSelect"
                             type="file"
                             name="upload"
+                            accept={props.attribute.acceptedFormat}
                             onChange={e => {
                                 getFileInfo(e.target.files!, (res: any | null) => {
                                     updateImages(clickedImgIdx.current!, e.target.files![0], res.width, res.height);

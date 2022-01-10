@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EdImg from './assets/edit-image.png'
 import { SigMain } from './genTypes'
+import { dataObject} from './genTypes'
 import Image from 'next/image'
 import './sig.css'
+import { getBase64, getFileInfo } from './alreadyExistant'
 import SignatureCanvas from "./SignatureCanvas";
 import SignatureImageSlot from "./SignatureImgSlot";
+import Dropzone from 'react-dropzone'
 
 type SigOpt = {
     title: string
@@ -15,8 +18,18 @@ type property = {
     attribute: SigMain
 }
 
+type sigImgProp = {
+    data: dataObject | null
+    cropData: string | null
+}
+
+
 const Signature = (props: property) => {
-    const [img, setImg] = useState<string | null >(null)
+    const [flag, set] = useState<boolean>(false)
+    const [img, setImg] = useState<sigImgProp>({
+        data:null,
+        cropData:null
+    })
     const options: SigOpt[] = [
         {
             title: "Image",
@@ -27,11 +40,22 @@ const Signature = (props: property) => {
             image: EdImg
         },
     ]
-    const  [selectedOpt, setSelOpt] = useState<string>("Image")
+    const  selectedOpt = useRef<string>("Image")
 
-    function updateImg (val:string) {
-        setImg(val)
+    useEffect(()=>{
+        return () => {if (sessionStorage.getItem('signature')) sessionStorage.removeItem('signature')}
+    },[])
+
+    function updateImages( val: File | File[] | string | null, width?: number, height?: number, name?: string): void {
+        if (val !== undefined) {
+            if (val !== null) {
+                typeof val === "string" ? setImg({ ...img,cropData: val } )
+                    : getBase64(val, (t: any) =>  setImg({ data: { data: t, width: width!, height: height! },cropData: null } ))
+            }
+            else setImg({data:val, cropData:val})
+        }
     }
+    
 
     return (
         <div className="mainCont">
@@ -48,8 +72,8 @@ const Signature = (props: property) => {
                         return(
                             <div 
                             className="optionDiv"
-                            onClick={()=>{setSelOpt(el.title)}}
-                            style={{backgroundColor: selectedOpt === el.title ? "white" : "transparent" }}
+                            onClick={()=>{selectedOpt.current =  el.title ;set(!flag)}}
+                            style={{backgroundColor: selectedOpt.current === el.title ? "white" : "transparent" }}
                             >
                                 <span className="optionSpan">
                                 <Image src={el.image}
@@ -63,9 +87,36 @@ const Signature = (props: property) => {
                     })
                     }
                     </div>
-                <div className="sigContentCont">
-                    {selectedOpt === "Image" ? <SignatureImageSlot current={img === null ? props.attribute.defaultFile : img}/> :<SignatureCanvas/>}
-                </div>
+                    {selectedOpt.current === "Image" ? 
+                    <Dropzone accept={props.attribute.acceptedFormat}
+                    onDrop={acceptedImg => {
+                        getFileInfo(acceptedImg, (res: any | null) => {
+                            updateImages(acceptedImg[0], res.width, res.height, res.name);
+                        })
+                    }}
+                >
+                    {({ getRootProps }) => (
+                  <div 
+                  className="sigContentCont"
+                  {...getRootProps()}
+                  >  
+                    <SignatureImageSlot 
+                    imgSize={img.data !== null ? {width:img.data.width, height:img.data.height } : null}
+                    current={ img!.cropData !== null ? img!.cropData : img!.data !== null ? img!.data?.data : props.attribute.defaultFile } 
+                    h={props.attribute.contHeight as number}
+                    w={props.attribute.contWidth as number}
+                    updateImages={updateImages}
+                    acceptedFormat={props.attribute.acceptedFormat}
+                    /> 
+                         </div>
+                    )}
+                         </Dropzone>
+                    : 
+                    <div className="sigContentCont">  
+                    <SignatureCanvas/>
+                    </div>
+                    }
+           
 
 
             </div>

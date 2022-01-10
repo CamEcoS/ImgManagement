@@ -15,10 +15,12 @@ export type categoryCount = {
 export type SigMain = {
     defaultFile: string
     currentState: SigRetrivedData[] | null
+    acceptedFormat: string
     contHeight?: Number | null
     contWidth?: Number | null
     closeModal?:any
 }
+
 
 type SigRetrivedData = {
     data: string

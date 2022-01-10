@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import './img.css'
 import ImgSlots from './ImgSlots';
@@ -6,7 +6,6 @@ import { categoryCount, SigMain } from './genTypes'
 import EdImg from './assets/edit-image.png'
 import imgDef from './assets/imgTemp.jpg'
 import { textSize } from './alreadyExistant'
-import SignatureCanvas from './SignatureCanvas';
 import Signature from './Signature';
 
 
@@ -28,7 +27,7 @@ export default function App() {
     contWidth:80,
     closeModal:close
   })
- 
+  
 
 
   return (
@@ -50,7 +49,6 @@ export default function App() {
       </div>
      
       {modal ? <ImgSlots attribute={mainProps} /> : null} 
-
 
     </div>
   );

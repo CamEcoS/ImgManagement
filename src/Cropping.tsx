@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import ReactCrop, { ReactCropProps, Crop } from 'react-image-crop';
+import { useState, useRef, useLayoutEffect } from 'react';
+import ReactCrop, { Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { getBase64, getCroppedToBase64, textSize } from './alreadyExistant'
-import { dataObject, ImgObj } from './genTypes'
+import { getCroppedToBase64, textSize } from './alreadyExistant'
+import { ImgObj } from './genTypes'
 import CropImg from './assets/crop.png'
 
 type cropProps = {
