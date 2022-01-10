@@ -28,9 +28,7 @@ export default function App() {
     contWidth:80,
     closeModal:close
   })
-  
-
-
+ 
 
 
   return (
@@ -52,6 +50,7 @@ export default function App() {
       </div>
      
       {modal ? <ImgSlots attribute={mainProps} /> : null} 
+
 
     </div>
   );

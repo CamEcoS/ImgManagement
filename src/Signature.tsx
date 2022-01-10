@@ -4,7 +4,7 @@ import { SigMain } from './genTypes'
 import Image from 'next/image'
 import './sig.css'
 import SignatureCanvas from "./SignatureCanvas";
-import SignatureImagSlot from "./SignatureImgSlot";
+import SignatureImageSlot from "./SignatureImgSlot";
 
 type SigOpt = {
     title: string
@@ -16,7 +16,7 @@ type property = {
 }
 
 const Signature = (props: property) => {
-
+    const [img, setImg] = useState<string | null >(null)
     const options: SigOpt[] = [
         {
             title: "Image",
@@ -28,6 +28,10 @@ const Signature = (props: property) => {
         },
     ]
     const  [selectedOpt, setSelOpt] = useState<string>("Image")
+
+    function updateImg (val:string) {
+        setImg(val)
+    }
 
     return (
         <div className="mainCont">
@@ -60,7 +64,7 @@ const Signature = (props: property) => {
                     }
                     </div>
                 <div className="sigContentCont">
-                    {selectedOpt === "Image" ? <SignatureImagSlot/> :<SignatureCanvas/>}
+                    {selectedOpt === "Image" ? <SignatureImageSlot current={img === null ? props.attribute.defaultFile : img}/> :<SignatureCanvas/>}
                 </div>
 
 
