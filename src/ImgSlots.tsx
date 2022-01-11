@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, ReactElement, useLayoutEffect } from "reac
 import { categoryCount, ImgObj } from './genTypes'
 import Image from 'next/image'
 import './img.css'
-import SlotsModal from './ImgControlSection'
+import Controller from './ImgControlSection'
 import { getBase64, getFileInfo } from './alreadyExistant'
 import Dropzone from 'react-dropzone'
 import Cropping from "./Cropping";
@@ -66,12 +66,13 @@ const ImageSlots = (props: property) => {
 
 
 
-    function updateImages(index: number, val: File | File[] | string | null, width?: number, height?: number, name?: string): void {
-        const condition = (index + 1) - props.attribute.mandatoryTitles.length
+    function updateImages(index: number | undefined, val: File | File[] | string | null, width?: number, height?: number, name?: string): void {
+        const condition = (index! + 1) - props.attribute.mandatoryTitles.length
         if (val !== undefined) {
             if (val !== null) {
+                console.log("namae", name)
                 typeof val === "string" ? setImgObj(imgObj!.map((el, i) => i === index ? { ...el, cropData: val } : el))
-                    : getBase64(val, (t: any) => setImgObj(imgObj!.map((el, i) => i === index ? { ...el, data: { data: t, width: width!, height: height! }, title: el.type === "Mandatory" ? el.title : name!, cropData: null } : el)))
+                    : getBase64(val, (t: any) => setImgObj(imgObj!.map((el, i) => i === index ? { ...el, data: { data: t, width: width!, height: height! }, title: el.type !== "Mandatory" && name !== undefined ? name! : el.title , cropData: null } : el)))
             }
             else setImgObj(imgObj!.map((el, i) => i === index ? { data: val, title: condition > 0 ? `Image ${condition}` : el.title, cropData: val, type: el.type } : el))
         }
@@ -123,7 +124,7 @@ const ImageSlots = (props: property) => {
                             accept={props.attribute.acceptedFormat}
                             onChange={e => {
                                 getFileInfo(e.target.files!, (res: any | null) => {
-                                    updateImages(clickedImgIdx.current!, e.target.files![0], res.width, res.height);
+                                    updateImages(clickedImgIdx.current!, e.target.files![0], res.width, res.height, res.name);
                                     e.target.value = ''
                                 })
                             }}
@@ -147,8 +148,7 @@ const ImageSlots = (props: property) => {
                     </form>
 
                     {clickedImgIdx.current === i && el.data !== null ?
-                        <SlotsModal key={i}
-                            state={imgObj!}
+                        <Controller key={i}
                             data={el.data?.data!}
                             index={i}
                             width={props.attribute.width}

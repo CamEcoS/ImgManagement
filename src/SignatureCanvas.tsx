@@ -9,7 +9,12 @@ const SignatureCanvas = () => {
     useEffect(()=>{
     //@ts-ignore
     if (sessionStorage.getItem('signature'))(sigCanvas.current! as SignaturePad).fromData(JSON.parse(sessionStorage.getItem('signature')))
-        //  setPoints(sessionStorage.getItem('signature')! as SignaturePad.Point[][]);
+    function updateCropSize() {
+    //@ts-ignore
+        if (sessionStorage.getItem('signature'))(sigCanvas.current! as SignaturePad).fromData(JSON.parse(sessionStorage.getItem('signature')))
+      }
+      window.addEventListener('resize', updateCropSize);
+      return () => window.removeEventListener('resize', updateCropSize);
     },[])
 
     
@@ -35,7 +40,7 @@ const SignatureCanvas = () => {
             <SignaturePad 
             ref={sigCanvas}
             onEnd={()=>{localSave()}}
-            clearOnResize={false}
+            clearOnResize={true}
             canvasProps={{
                 className: "signatureCanvas"
               }}/>

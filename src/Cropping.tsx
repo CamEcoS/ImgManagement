@@ -8,7 +8,7 @@ import CropImg from './assets/crop.png'
 type cropProps = {
   data: ImgObj | null
   clickedIndex: number | null
-  imgUpdate: (index: number, val: string | null, width?: number, height?: number) => void
+  imgUpdate: (index: number | undefined, val: string | null, width?: number, height?: number) => void
   showCrop: (crop: boolean) => void
   disable: boolean
   width: number

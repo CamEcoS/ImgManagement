@@ -10,13 +10,12 @@ import { getFileInfo, textSize } from './alreadyExistant'
 
 
 type ImgReactions = {
-  index: number
+  index: number | null
   data: string | null
-  state: ImgObj[]
   acceptedFormat: string
   width: number
   height: number
-  imgUpdate: (index: number, val: File | null, width?: number, height?: number) => void
+  imgUpdate: (index: number | undefined, val: File | null, width?: number, height?: number) => void
   showCrop: (crop: boolean) => void
   signature?:boolean
 
@@ -66,7 +65,7 @@ const ImgControlSection = (props: ImgReactions) => {
                 onMouseLeave={_ => { setHoveredTitle(null) }}
                 onClick={() => {
                   if (el.title !== "Edit image") {
-                    el.title === "Delete" ? props.imgUpdate(props.index, null) :
+                    el.title === "Delete" ? props.imgUpdate(props.index!, null) :
                       props.showCrop(el.title === "Crop" ? true : false)
                   }
                 }}
@@ -87,7 +86,7 @@ const ImgControlSection = (props: ImgReactions) => {
                         accept={props.acceptedFormat}
                         onChange={e => {
                           getFileInfo(e.target.files!, (res: any | null) => {
-                            props.imgUpdate(props.index, e.target.files![0], res.width, res.height);
+                            props.imgUpdate(props.index!, e.target.files![0], res.width, res.height);
                             e.target.value = ''
                           })
                         }} />

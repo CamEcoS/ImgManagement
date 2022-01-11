@@ -2,18 +2,18 @@ import { useState, useLayoutEffect, useEffect} from "react";
 import Image from 'next/image'
 import { getFileInfo } from './alreadyExistant'
 import './sig.css'
+import ImgControlSection from "./ImgControlSection";
 
 type SizeWH = {
     width: number
     height: number
 }
-
 type imgSlot = {
     imgSize:SizeWH | null
     current: string
     h: number
     w: number
-    updateImages: (val: string | File | File[] | null, width?: number | undefined, height?: number | undefined, name?: string | undefined) => void 
+    updateImages: (index:number | undefined, val: string | File | File[] | null, width?: number | undefined, height?: number | undefined, name?: string | undefined) => void 
     acceptedFormat: string
 }
 
@@ -40,6 +40,7 @@ useEffect(()=>{
     console.log("induce", imgSizeW)
 },[size])
     return(
+        <>
         <label className="sigImgCont"
         style={{
             left: `calc(50% - ${imgSizeW*0.5}px)`,
@@ -66,12 +67,20 @@ useEffect(()=>{
                 accept={props.acceptedFormat}
                 onChange={e => {
                     getFileInfo(e.target.files!, (res: any | null) => {
-                        props.updateImages( e.target.files![0], res.width, res.height);
+                        props.updateImages( undefined,e.target.files![0], res.width, res.height);
                         e.target.value = ''
                     })
                 }}
             /> 
         </label>
+        {/* <ImgControlSection
+        index = {null}
+        data={props.current}
+        acceptedFormat={props.acceptedFormat}
+        imgUpdate={props.updateImages}
+      
+        /> */}
+        </>
     )
 }
 

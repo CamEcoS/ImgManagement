@@ -46,7 +46,7 @@ const Signature = (props: property) => {
         return () => {if (sessionStorage.getItem('signature')) sessionStorage.removeItem('signature')}
     },[])
 
-    function updateImages( val: File | File[] | string | null, width?: number, height?: number, name?: string): void {
+    function updateImages(index:number | undefined, val: File | File[] | string | null, width?: number, height?: number, name?: string): void {
         if (val !== undefined) {
             if (val !== null) {
                 typeof val === "string" ? setImg({ ...img,cropData: val } )
@@ -91,7 +91,7 @@ const Signature = (props: property) => {
                     <Dropzone accept={props.attribute.acceptedFormat}
                     onDrop={acceptedImg => {
                         getFileInfo(acceptedImg, (res: any | null) => {
-                            updateImages(acceptedImg[0], res.width, res.height, res.name);
+                            updateImages(undefined,acceptedImg[0], res.width, res.height, res.name);
                         })
                     }}
                 >

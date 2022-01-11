@@ -49,6 +49,9 @@ export default function App() {
       </div>
      
       {modal ? <ImgSlots attribute={mainProps} /> : null} 
+    
+
+
 
     </div>
   );
