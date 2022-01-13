@@ -3,7 +3,7 @@ import EdImg from './assets/edit-image.png'
 import { SigMain, sigImgProp, bench } from './genTypes'
 import Image from 'next/image'
 import './sig.css'
-import { getBase64, getFileInfo } from './alreadyExistant'
+import { getBase64, getFileInfo, textSize } from './alreadyExistant'
 import SignatureCanvas from "./SignatureCanvas";
 import SignatureImageSlot from "./SignatureImgSlot";
 import Dropzone from 'react-dropzone'
@@ -25,6 +25,7 @@ type property = {
 
 const Signature = (props: property) => {
 
+    const [hoveredTitle, setHoveredTitle] = useState<string | null>(null)
     const sizeBench = useRef<bench>({ width: 0, height: 0 }) // in case needs to write conditional changes on top level and to avoid overendering
     const [flag, set] = useState<boolean>(false)
     const [img, setImg] = useState<sigImgProp>({
@@ -94,7 +95,11 @@ const Signature = (props: property) => {
                                 onClick={() => { changeOptions(el.title, el.enabled) }}
                                 style={{ backgroundColor: selectedOpt.current === el.title ? "white" : "transparent" }}
                             >
-                                <span className="optionSpan">
+                                <span
+                                 className="optionSpan"
+                                 onMouseEnter={_ => { setHoveredTitle(el.title) }}
+                                 onMouseLeave={_ => { setHoveredTitle(null) }}
+                                 >
                                     <Image src={el.image}
                                         unoptimized
                                         width={35}
@@ -105,6 +110,16 @@ const Signature = (props: property) => {
                         )
                     })
                     }
+        <div  className="titleDisplay" 
+      style={{
+          top:"20%",
+         color: "white" , 
+         fontSize:15, 
+         marginLeft: sizeBench.current.width*(props.attribute.contWidth as number*0.01) *0.1
+        
+         }}>
+        {hoveredTitle}
+      </div>
                 </div>
                 {selectedOpt.current === "Image" ?
                     <Dropzone accept={props.attribute.acceptedFormat}

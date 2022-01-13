@@ -126,7 +126,11 @@
         cursor: pointer;
         color:white
     }
-
+    .titleDisplay{
+        position: absolute;
+        display: block;
+        font-weight: bolder;
+    }
     .typeInp{
         position: relative;
         padding: 10px;

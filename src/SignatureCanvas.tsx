@@ -20,7 +20,7 @@ type SigCanvProps = {
 
 const SignatureCanvas = (props: SigCanvProps) => {
 
-    
+    const [hoveredTitle, setHoveredTitle] = useState<string | null>(null)
     const [size, setSize] = useState<number[]>([window.innerWidth, window.innerHeight]);
     const [typeValue, setTypeValue] = useState<string>("")
     const [mode, setMode] = useState<string>("draw") //type
@@ -180,19 +180,30 @@ const SignatureCanvas = (props: SigCanvProps) => {
             }
 
             <img src={eraser} className="clear" onClick={clear} />
+            <div 
+      className="titleDisplay" 
+      style={{
+        top:"108%",
+       color: "white" , 
+       fontSize:15, 
+       marginLeft: "8%"
+         }}>
+        {hoveredTitle}
+      </div>
             <div className="sigModeCont">
             {
                 sigOptions.map(el=>{
                     return(
                         <div
                         className="optionDiv"
-                        onClick={() => { setMode(el.title) }}
                         style={{ backgroundColor: mode === el.title ? "white" : "transparent" }}
                     >
                         <img 
                         src={el.img} 
                         onClick={()=>{setMode(el.title)}}
                         className="sigOptions"
+                        onMouseEnter={_ => { setHoveredTitle(el.title) }}
+                        onMouseLeave={_ => { setHoveredTitle(null) }}
                         />
                         </div>
                     )
