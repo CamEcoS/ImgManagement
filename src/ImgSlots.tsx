@@ -70,7 +70,6 @@ const ImageSlots = (props: property) => {
         const condition = (index! + 1) - props.attribute.mandatoryTitles.length
         if (val !== undefined) {
             if (val !== null) {
-                console.log("namae", name)
                 typeof val === "string" ? setImgObj(imgObj!.map((el, i) => i === index ? { ...el, cropData: val } : el))
                     : getBase64(val, (t: any) => setImgObj(imgObj!.map((el, i) => i === index ? { ...el, data: { data: t, width: width!, height: height! }, title: el.type !== "Mandatory" && name !== undefined ? name! : el.title , cropData: null } : el)))
             }

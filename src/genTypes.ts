@@ -3,7 +3,7 @@ export type categoryCount = {
     optionalAmount?: number | null
     acceptedFormat: string
     defaultFile: string
-    currentState: imageToIndicator[] | null
+    currentState: ImgObj[] | null
     width: number
     height: number
     contHeight?: Number | null
@@ -14,24 +14,24 @@ export type categoryCount = {
 
 export type SigMain = {
     defaultFile: string
-    currentState: SigRetrivedData[] | null
+    currentState: sigImgProp[] | null
     acceptedFormat: string
+    startingOptions:string
     contHeight?: Number | null
     contWidth?: Number | null
     closeModal?:any
 }
 
 
-type SigRetrivedData = {
-    data: string
-    cropData: string | null
+export type sigImgProp = {
+    data: dataObject | null
+    cropData: dataObject | null
+    title: string
 }
 
-type imageToIndicator = {
-    data: string
-    cropData: string | null
-    indicator: number
-    optionalTitle: string | null
+export type bench = {
+    width:number
+    height:number
 }
 
 export type ImgObj = {
@@ -51,5 +51,6 @@ export type ControlObj = {
     data: string | null
     title: string
 }
+
 
 

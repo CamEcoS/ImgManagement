@@ -1,85 +1,122 @@
-import { useState, useLayoutEffect, useEffect} from "react";
-import Image from 'next/image'
-import { getFileInfo } from './alreadyExistant'
-import './sig.css'
-import ImgControlSection from "./ImgControlSection";
+import { useState, useLayoutEffect, useEffect, useRef } from "react";
+import Image from 'next/image';
+import { getFileInfo } from './alreadyExistant';
+import { sigImgProp } from './genTypes';
+import './sig.css';
+import Controller from "./ImgControlSection";
+import Cropping from "./Cropping";
 
 type SizeWH = {
     width: number
     height: number
 }
 type imgSlot = {
-    imgSize:SizeWH | null
+    data: sigImgProp
+    imgSize: SizeWH | null
     current: string
     h: number
     w: number
-    updateImages: (index:number | undefined, val: string | File | File[] | null, width?: number | undefined, height?: number | undefined, name?: string | undefined) => void 
+    updateImages: (index: number | undefined, val: string | File | File[] | null, width?: number | undefined, height?: number | undefined, name?: string | undefined) => void
+    sizeBenchUpdate: (w: number, h: number) => void
     acceptedFormat: string
+    closeModal: (val: boolean) => void
 }
 
-const SignatureImgSlot = (props:imgSlot) =>{
-    
+const SignatureImgSlot = (props: imgSlot) => {
+
     const [size, setSize] = useState<number[]>([window.innerWidth, window.innerHeight]);
-    const sizeHBench = size[1] * (props.h*0.01)*0.7 
-    const sizeWBench = size[0] * (props.w*0.01)
-    const defaultSize =  sizeHBench <= sizeWBench ? sizeHBench : sizeWBench
-    const imgSizeW = props.imgSize === null ? defaultSize : sizeWBench < sizeHBench ? sizeWBench : sizeHBench*(props.imgSize?.width!/props.imgSize?.height!)
-    const imgSizeH = props.imgSize === null ? defaultSize : sizeHBench <= sizeWBench ? sizeHBench : sizeWBench*(props.imgSize?.height!/props.imgSize?.width!)
+    const disableCrop = useRef<boolean>(false)
+    const [showCrop, setShowCrop] = useState<boolean>(false)
+    const sizeHBench = size[1] * (props.h * 0.01) * 0.7
+    const sizeWBench = size[0] * (props.w * 0.01)
+    const defaultSize = sizeHBench <= sizeWBench ? sizeHBench : sizeWBench
+    const imgSizeW = props.imgSize === null ? defaultSize : sizeHBench * (props.imgSize?.width! / props.imgSize?.height!) >= sizeWBench ? sizeWBench : sizeHBench * (props.imgSize?.width! / props.imgSize?.height!)
+    const imgSizeH = props.imgSize === null ? defaultSize : sizeWBench * (props.imgSize?.height! / props.imgSize?.width!) >= sizeHBench ? sizeHBench : sizeWBench * (props.imgSize?.height! / props.imgSize?.width!)
 
 
     useLayoutEffect(() => {
-      function updateSize() {
-        setSize([window.innerWidth, window.innerHeight]);
-      }
-      window.addEventListener('resize', updateSize);
-      updateSize();
-      return () => window.removeEventListener('resize', updateSize);
+        function updateSize() {
+            setSize([window.innerWidth, window.innerHeight]);
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
     }, []);
 
-useEffect(()=>{
-    console.log("induce", imgSizeW)
-},[size])
-    return(
-        <>
-        <label className="sigImgCont"
-        style={{
-            left: `calc(50% - ${imgSizeW*0.5}px)`,
-            top: `calc(50% - ${imgSizeH*0.5}px)`,
-            cursor:"pointer"
+    useEffect(() => {
+        props.sizeBenchUpdate(sizeWBench, sizeHBench)
+    }, [size])
 
-        }}
-        >
-            <Image
-            priority
-            unoptimized
-            src={props.current}
-            onLoad={()=>{console.log(defaultSize)}}
-            width={imgSizeW}
-            height={imgSizeH}
-            // width={30}
-            // height={30}
-            />
-            <input
-                id="retrieveFile"
-                className="sigSelect"
-                type="file"
-                name="upload"
-                accept={props.acceptedFormat}
-                onChange={e => {
-                    getFileInfo(e.target.files!, (res: any | null) => {
-                        props.updateImages( undefined,e.target.files![0], res.width, res.height);
-                        e.target.value = ''
-                    })
+    function showCropCall(crop: boolean) {
+        crop ? disableCrop.current = false : disableCrop.current = true
+        setShowCrop(!showCrop)
+    }
+
+    function sendAndClose() {
+        // send to db use Session storage to store previous call to avoid multiple calls
+        if (props.closeModal !== undefined) props.closeModal(false)
+    }
+    return (
+        <>
+            {showCrop ? <Cropping
+                data={props.imgSize !== null ? props.data : null}
+                clickedIndex={null}
+                imgUpdate={props.updateImages}
+                showCrop={showCropCall}
+                disable={disableCrop.current}
+                width={imgSizeW}
+                height={imgSizeH}
+            /> : null}
+
+            <label
+                id="sigImgCont"
+                className="sigImgCont"
+                style={{
+                    left: `calc(50% - ${imgSizeW * 0.5}px)`,
+                    top: `calc(50% - ${imgSizeH * 0.5}px)`,
+                    // left: 0,
+                    // top: `calc(50% - 130px)`,
+                    cursor: "pointer"
+
                 }}
-            /> 
-        </label>
-        {/* <ImgControlSection
-        index = {null}
-        data={props.current}
-        acceptedFormat={props.acceptedFormat}
-        imgUpdate={props.updateImages}
-      
-        /> */}
+            >
+                <Image
+                    priority
+                    unoptimized
+                    src={props.current}
+                    onLoad={() => {}}
+                    width={imgSizeW}
+                    height={imgSizeH}
+                // width={30}
+                // height={30}
+                />
+                <input
+                    id="retrieveFile"
+                    className="sigSelect"
+                    type="file"
+                    name="upload"
+                    accept={props.acceptedFormat}
+                    onChange={e => {
+                        getFileInfo(e.target.files!, (res: any | null) => {
+                            props.updateImages(1, e.target.files![0], res.width, res.height);
+                            e.target.value = ''
+                        })
+                    }}
+                />
+            </label>
+            {props.imgSize !== null ?
+                <div className="controllerPosition">
+                    <Controller
+                        index={null}
+                        data={props.current}
+                        acceptedFormat={props.acceptedFormat}
+                        imgUpdate={props.updateImages}
+                        showCrop={showCropCall}
+                        width={sizeWBench * 0.4}
+                        height={sizeHBench}
+                    />
+                </div> : null}
+            <span className="SaveAndClose" onClick={() => { sendAndClose() }} >Save and close</span>
         </>
     )
 }

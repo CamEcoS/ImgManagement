@@ -1,12 +1,15 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import ReactCrop, { Crop } from 'react-image-crop';
+import { dataObject} from './genTypes';
 import 'react-image-crop/dist/ReactCrop.css';
+import { sigImgProp} from './genTypes'
 import { getCroppedToBase64, textSize } from './alreadyExistant'
 import { ImgObj } from './genTypes'
 import CropImg from './assets/crop.png'
 
+
 type cropProps = {
-  data: ImgObj | null
+  data: ImgObj | null | sigImgProp
   clickedIndex: number | null
   imgUpdate: (index: number | undefined, val: string | null, width?: number, height?: number) => void
   showCrop: (crop: boolean) => void
@@ -16,8 +19,8 @@ type cropProps = {
 }
 
 export default function Cropping(props: cropProps) {
-
-  const [crop, setCrop] = useState<Crop>({ unit: '%', width: 0, aspect: props.width / props.height, x: 0, y: 0, height: 0 });
+    //if no clicked idx === undefined
+  const [crop, setCrop] = useState<Crop>({ unit: '%', width: 0, aspect: props.clickedIndex === null ? undefined : props.width / props.height, x: 0, y: 0, height: 0 });
   const currentImg = useRef<HTMLImageElement | null>(null)
   const scaleW = 0.8
 
@@ -55,19 +58,24 @@ export default function Cropping(props: cropProps) {
       <h4 style={{ cursor: "pointer", left: "40%", color:"white" }} onClick={() => { props.showCrop(false) }}>close</h4>
       <ReactCrop
         style={{ width: scaleCondition() * scaleW, flexShrink: 0, }}
+        imageStyle={{}}
         disabled={props.disable}
         src={props.data?.data?.data!}
         crop={crop}
-        onChange={(c) => { setCrop(c) }}
+        onChange={(c) => { setCrop(c); console.log(c) }}
         onComplete={(c) => {}}
         onImageLoaded={(img) => { currentImg.current = img; }}
       />
-  {  !props.disable ?  <div 
+  { !props.disable ?  <div 
       className="cropTrigger" 
-      style={{width: "15vw", borderRadius:"7.5vw"}}
+      style={{
+        width: "15vw", 
+        borderRadius:"7.5vw",
+        background: (crop.height && crop.width) !== 0 ? "-webkit-linear-gradient(left, #141E30, #243B55)" : "silver",
+      }}
       onClick={() => {
         if ((crop.height && crop.width) !== 0) {
-          props.imgUpdate(props.clickedIndex!, getCroppedToBase64(currentImg.current, crop));
+          props.imgUpdate(props.clickedIndex!, getCroppedToBase64(currentImg.current, crop), crop.width, crop.height);
           props.showCrop(false) // comment out for auto crop
         }
       }}

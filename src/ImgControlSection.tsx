@@ -17,7 +17,7 @@ type ImgReactions = {
   height: number
   imgUpdate: (index: number | undefined, val: File | null, width?: number, height?: number) => void
   showCrop: (crop: boolean) => void
-  signature?:boolean
+ 
 
 }
 
@@ -25,6 +25,7 @@ const ImgControlSection = (props: ImgReactions) => {
 
   const optionSize:number = props.width >= 150 ? 30 : props.width/5
   const optionPos:number = optionSize*0.155
+  // here with height if index null
   const fontS:number = props.width < 150 ? 15 - (150 - optionSize)/(100/3) : props.width <= 50 ? 12 : 15
   const [hoveredTitle, setHoveredTitle] = useState<string | null>(null)
   const options: ControlObj[] = [
@@ -98,7 +99,14 @@ const ImgControlSection = (props: ImgReactions) => {
           })
         }
       </div>
-      <div className="titleDisplay" style={{ fontSize:fontS, marginLeft: props.width * 0.5 - textSize(fontS, hoveredTitle, true) * 0.5 }}>
+      <div 
+      className="titleDisplay" 
+      style={{
+         color: props.index === null ? "white" : "black", 
+         fontSize:fontS, 
+         marginTop: props.index === null ? 5 : 35,
+         marginLeft: props.index === null ? - props.width * 0.5 - textSize(fontS, hoveredTitle, true) * 0.5  : props.width * 0.5 - textSize(fontS, hoveredTitle, true) * 0.5 
+         }}>
         {hoveredTitle}
       </div>
     </>
