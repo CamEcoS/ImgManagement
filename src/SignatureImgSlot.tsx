@@ -84,7 +84,7 @@ const SignatureImgSlot = (props: imgSlot) => {
                     priority
                     unoptimized
                     src={props.current}
-                    onLoad={() => {}}
+                    onLoad={() => { }}
                     width={imgSizeW}
                     height={imgSizeH}
                 // width={30}

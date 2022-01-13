@@ -11,9 +11,9 @@ import Signature from './Signature';
 
 
 export default function App() {
-  function close(){
+  function close() {
     setModal(false)
-   }
+  }
   const [modal, setModal] = useState<boolean>(false)
   const [mainProps, set] = useState<categoryCount>({
     mandatoryTitles: ["Loft", "Pipes", "Floor"],
@@ -23,19 +23,19 @@ export default function App() {
     currentState: null, // for db data
     width: 150,
     height: 150,
-    contHeight:80,
-    contWidth:80,
-    closeModal:close
+    contHeight: 80,
+    contWidth: 80,
+    closeModal: close
   })
-  
+
   const [sigProps, setSig] = useState<SigMain>({
-    contHeight:80,
-    contWidth:80,
+    contHeight: 80,
+    contWidth: 80,
     acceptedFormat: "image/png, image/jpg, image/jpeg",
-    startingOptions:"Image",
-    currentState:null,
-    defaultFile:imgDef,
-    closeModal:close
+    startingOptions: "Image",
+    currentState: null,
+    defaultFile: imgDef,
+    closeModal: close
   })
 
 
@@ -43,9 +43,9 @@ export default function App() {
   return (
     <div className="App">
 
-    <div
+      <div
         className="openTrigger"
-        style={{opacity: modal ? 0.3 : 1}}
+        style={{ opacity: modal ? 0.3 : 1 }}
         onClick={() => setModal(true)}
 
       >
@@ -57,9 +57,9 @@ export default function App() {
           Open
         </h4>
       </div>
-     
+
       {/* {modal ? <ImgSlots attribute={mainProps} /> : null}  */}
-    {modal ? <Signature attribute={sigProps}/> : null}
+      {modal ? <Signature attribute={sigProps} /> : null}
 
 
 

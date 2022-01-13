@@ -62,7 +62,7 @@ export default function Cropping(props: cropProps) {
         disabled={props.disable}
         src={props.data?.data?.data!}
         crop={crop}
-        onChange={(c) => { setCrop(c); console.log(c) }}
+        onChange={(c) => { setCrop(c) }}
         onComplete={(c) => {}}
         onImageLoaded={(img) => { currentImg.current = img; }}
       />
