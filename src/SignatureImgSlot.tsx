@@ -54,6 +54,12 @@ const SignatureImgSlot = (props: imgSlot) => {
 
     function sendAndClose() {
         // send to db use Session storage to store previous call to avoid multiple calls
+        const date = new Date
+        // send to db use Session storage to store previous call to avoid multiple calls
+                // navigator.geolocation.getCurrentPosition(function showPosition(position) {
+                //     console.log("location", position.coords.latitude,  position.coords.longitude) 
+                //      send call here to backend with date and object
+                //   })
         if (props.closeModal !== undefined) props.closeModal(false)
     }
     return (

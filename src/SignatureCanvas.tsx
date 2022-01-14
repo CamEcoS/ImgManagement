@@ -45,7 +45,7 @@ const SignatureCanvas = (props: SigCanvProps) => {
         //@ts-ignore
         function updateSignatureSize() {
             //@ts-ignore
-            if (sessionStorage.getItem('signatureDraw') !== null && JSON.parse(sessionStorage.getItem('signatureDraw')!).length > 0 && sigCanvas.current._sigPad) (sigCanvas.current! as SignaturePad).fromData(JSON.parse(sessionStorage.getItem('signatureDraw')!))
+            if (sessionStorage.getItem('signatureDraw') && JSON.parse(sessionStorage.getItem('signatureDraw')!).length > 0 && sigCanvas.current._sigPad) (sigCanvas.current! as SignaturePad).fromData(JSON.parse(sessionStorage.getItem('signatureDraw')!))
 
         }
         window.addEventListener('resize', updateSignatureSize);
@@ -98,11 +98,16 @@ const SignatureCanvas = (props: SigCanvProps) => {
 
     function updateImg() {
         //@ts-ignore
+        const date = new Date
         if (mode === "Draw") {
             //@ts-ignore
             if (sessionStorage.getItem('signatureDraw') && JSON.parse(sessionStorage.getItem('signatureDraw')).length > 0) {
                 props.updateImages(undefined, (sigCanvas.current! as SignaturePad).getTrimmedCanvas().toDataURL("image/png"), props.bench.width, props.bench.height);
                 // send to db use Session storage to store previous call to avoid multiple calls
+                // navigator.geolocation.getCurrentPosition(function showPosition(position) {
+                //     console.log("location", position.coords.latitude,  position.coords.longitude) 
+                //      send call here to backend with date and object
+                //   })
                 props.changeOption("Image", props.imgEnabled)
             }
         }
@@ -112,6 +117,10 @@ const SignatureCanvas = (props: SigCanvProps) => {
                 //@ts-ignore
                 props.updateImages(undefined, (sigCanvas.current as HTMLCanvasElement).toDataURL({ mimeType: 'image/png', width: sizeWBench, height: sizeHBench * 0.215, quality: 2, pixelRadio: 1, }), sizeWBench, sizeHBench * 0.215);
                 // send to db use Session storage to store previous call to avoid multiple calls
+                // navigator.geolocation.getCurrentPosition(function showPosition(position) {
+                //     console.log("location", position.coords.latitude,  position.coords.longitude) 
+                //      send call here to backend with date and object
+                //   })
                 props.changeOption("Image", props.imgEnabled)
             }
         }
@@ -124,7 +133,7 @@ const SignatureCanvas = (props: SigCanvProps) => {
             {mode === "Draw" ? <SignaturePad
                 ref={sigCanvas}
                 onEnd={() => { localSave() }}
-                clearOnResize={true}
+                clearOnResize={false}
                 backgroundColor={"white"}
                 canvasProps={{
                     className: "signatureCanvas"
