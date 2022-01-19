@@ -183,6 +183,16 @@ const ImageSlots = (props: property) => {
     }
 
     return (
+        <>
+        {showCrop ? <Cropping
+            data={clickedImgIdx.current !== null ? imgObj![clickedImgIdx.current] : null}
+            clickedIndex={clickedImgIdx.current}
+            imgUpdate={updateImages}
+            showCrop={showCropCall}
+            disable={disableCrop.current}
+            width={props.attribute.width}
+            height={props.attribute.height}
+        /> : null}
         <div className="mainCont"
         >
             {props.attribute.closeModal !== undefined && (props.attribute.contHeight! < 100 || props.attribute.contWidth! < 100) ? <h4 style={{ cursor: "pointer", left:"90%", top:"-2.5%", color:"white", position:"absolute" }} onClick={() =>props.attribute.closeModal !== undefined ? props.attribute.closeModal(false) : null}>close</h4> : null}
@@ -193,15 +203,7 @@ const ImageSlots = (props: property) => {
                     left: `${typeof props.attribute.contWidth === "number" ? 50 - props.attribute.contWidth!*0.5 : 0 }%`,
                     top: `${typeof props.attribute.contHeight === "number" ? 50 - props.attribute.contHeight!*0.5 : 0 }%`
                 }}>
-                {showCrop ? <Cropping
-                    data={clickedImgIdx.current !== null ? imgObj![clickedImgIdx.current] : null}
-                    clickedIndex={clickedImgIdx.current}
-                    imgUpdate={updateImages}
-                    showCrop={showCropCall}
-                    disable={disableCrop.current}
-                    width={props.attribute.width}
-                    height={props.attribute.height}
-                /> : null}
+       {/*init showcrop call */}
                 {imgObj?.map((el, i) => {
                     const styleCondition = i !== 0 && imgObj![i - 1].type !== imgObj![i].type
                     return (
@@ -237,6 +239,7 @@ const ImageSlots = (props: property) => {
 
             </div>
         </div>
+        </>
     )
 }
 

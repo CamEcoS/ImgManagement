@@ -23,8 +23,8 @@ export default function App() {
     currentState: null, // for db data
     width: 150,
     height: 150,
-    contHeight: 80,
-    contWidth: 80,
+    contHeight: 80,// 100 safari
+    contWidth: 80,// 100 safari
     closeModal: close
   })
 

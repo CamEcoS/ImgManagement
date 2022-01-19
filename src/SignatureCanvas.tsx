@@ -133,7 +133,7 @@ const SignatureCanvas = (props: SigCanvProps) => {
             {mode === "Draw" ? <SignaturePad
                 ref={sigCanvas}
                 onEnd={() => { localSave() }}
-                clearOnResize={false}
+                clearOnResize={true}
                 backgroundColor={"white"}
                 canvasProps={{
                     className: "signatureCanvas"
