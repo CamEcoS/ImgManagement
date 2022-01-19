@@ -55,17 +55,19 @@ const ImgControlSection = (props: ImgReactions) => {
 
   return (
     <>
-      <div className="controlLayer" style={{ width: props.width, height: optionSize, borderRadius: props.width * 0.5 }}>
+      <div data-testid={`Controller ${props.index}`} className="controlLayer" style={{ width: props.width, height: optionSize, borderRadius: props.width * 0.5 }}>
         {
           options.map((el, i) => {
             return (
               <span
                 key={i}
                 className="options"
+                data-testid={el.title}
                 onMouseEnter={_ => { setHoveredTitle(el.title) }}
                 onMouseLeave={_ => { setHoveredTitle(null) }}
                 onClick={() => {
                   if (el.title !== "Edit image") {
+                    console.log(`${el.title} event triggered`)
                     el.title === "Delete" ? props.imgUpdate(props.index!, null) :
                       props.showCrop(el.title === "Crop" ? true : false)
                   }
@@ -82,10 +84,12 @@ const ImgControlSection = (props: ImgReactions) => {
                       <input
                         id="retrieveFile"
                         className="imgSelect"
+                        data-testid="retrieveFile"
                         type="file"
                         name="upload"
                         accept={props.acceptedFormat}
                         onChange={e => {
+                          console.log("upload manually with data on from control: ",e)
                           getFileInfo(e.target.files!, (res: any | null) => {
                             props.imgUpdate(props.index!, e.target.files![0], res.width, res.height);
                             e.target.value = ''
@@ -105,7 +109,7 @@ const ImgControlSection = (props: ImgReactions) => {
          color: props.index === null ? "white" : "black", 
          fontSize:fontS, 
          marginTop: props.index === null ? 5 : 35,
-         marginLeft: props.index === null ? - props.width * 0.5 - textSize(fontS, hoveredTitle, true) * 0.5  : props.width * 0.5 - textSize(fontS, hoveredTitle, true) * 0.5 
+         marginLeft: props.index === null ? - props.width * 0.5 - textSize(fontS, hoveredTitle!, true) * 0.5  : props.width * 0.5 - textSize(fontS, hoveredTitle!, true) * 0.5 
          }}>
         {hoveredTitle}
       </div>

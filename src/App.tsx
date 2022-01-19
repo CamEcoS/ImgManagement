@@ -28,7 +28,15 @@ export default function App() {
     closeModal: close
   })
 
- 
+  const [sigProps, setSig] = useState<SigMain>({
+    contHeight: 80,
+    contWidth: 80,
+    acceptedFormat: "image/png, image/jpg, image/jpeg",
+    startingOptions: "Image",
+    currentState: null,
+    defaultFile: imgDef,
+    closeModal: close
+  })
 
 
 
@@ -51,7 +59,7 @@ export default function App() {
       </div>
 
       {modal ? <ImgSlots attribute={mainProps} /> : null} 
- 
+      {/* {modal ? <Signature attribute={sigProps} /> : null} */}
 
 
 

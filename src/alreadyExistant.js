@@ -1,8 +1,11 @@
 export function getBase64(img, callback) {
 	const reader = new FileReader()
-	reader.addEventListener('load', () => callback(reader.result))
+	// reader.addEventListener('load', () => callback(reader.result))
+	reader.onload = (e)=>{callback(e.target.result)}
 	reader.readAsDataURL(img)
 }
+
+
 
 // none existant
 
@@ -48,16 +51,19 @@ function readImgFile(file, extension, callback) {
 			})
 		}
 	};
+	// console.log("keyPP",reader.readAsDataURL(file))
 	reader.readAsDataURL(file);
 
 }
 
 export function textSize(size, text, width) {
 	const c = document.createElement('canvas');
-	var ctx = c.getContext("2d");
+	const ctx = c.getContext("2d");
+	if (ctx !== undefined){
 	ctx.font = `${size}px Arial`;
-	var txt = text
+	const txt = text
 	return width ? ctx.measureText(txt).width : parseInt(ctx.font.match(/\d+/))
+	} else return size
 }
 
 export function getCroppedToBase64(image, crop) {

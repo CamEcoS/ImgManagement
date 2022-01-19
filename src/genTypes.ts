@@ -36,7 +36,7 @@ export type bench = {
 
 export type ImgObj = {
     data: dataObject | null
-    title: string
+    title: string  // if title not equal to mandatory title or title slot data !== null than add to the lowest index option
     cropData: string | null
     type: string
 }
