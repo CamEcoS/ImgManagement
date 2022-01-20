@@ -213,7 +213,7 @@ const SignatureCanvas = (props: SigCanvProps) => {
             </div>
 
             <span className="save"
-                style={{ backgroundColor: (mode === "Draw" && sessionStorage.getItem('signatureDraw') && JSON.parse(sessionStorage.getItem('signatureDraw')!).length > 0) || (mode === "Type" && sessionStorage.getItem('signatureType')) ? "rgb(42, 173, 190)" : "silver" }}
+                style={{ backgroundColor: (mode === "Draw" && sessionStorage.getItem('signatureDraw') && JSON.parse(sessionStorage.getItem('signatureDraw')!).length > 0) || (mode === "Type" && sessionStorage.getItem('signatureType') &&  typeValue !== "") ? "rgb(42, 173, 190)" : "silver" }}
                 onClick={updateImg}
             >
                 Save and view
