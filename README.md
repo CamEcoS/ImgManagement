@@ -26,15 +26,15 @@ Simply add the component and pass an object of props to the **attribute** prop
 
 Here are the props below:
 
-   mandatoryTitles: Array of string,
-   optionalAmount: number,
-   acceptedFormat: string,
+   - mandatoryTitles: Array of string,
+   - optionalAmount: number,
+   - acceptedFormat: string,
    defaultFile: string as image path,
-   currentState: to be used when connecting to backend is null for now, 
-   width: number,
-   height: number,
-   contHeight:can be null or 100 for full screen its in percentage,
-   contWidth:can be null or 100 for full screen its in percentage
+   - currentState: to be used when connecting to backend is null for now, 
+   - width: number,
+   - height: number,
+   - contHeight:can be null or 100 for full screen its in percentage,
+   - contWidth:can be null or 100 for full screen its in percentage
 
    # Testing
 
