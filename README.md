@@ -34,7 +34,17 @@ Here are the props below:
    width: number,
    height: number,
    contHeight:can be null or 100 for full screen its in percentage,
-   contWidth:can be null or 100 for full screen its in percentage,
+   contWidth:can be null or 100 for full screen its in percentage
+
+   # Testing
+
+   - App is rendered
+   - All image rendered successfully with same default image, ability to upload and drop
+   - can change optional titles
+   - can add new optional slots
+   - ImgControlSection appears when index match
+   - all ImgControlSection events are triggering
+   - can trigger the close button on crop and fullscreen
 
 
 
