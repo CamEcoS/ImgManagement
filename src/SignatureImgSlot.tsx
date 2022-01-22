@@ -77,6 +77,7 @@ const SignatureImgSlot = (props: imgSlot) => {
             <label
                 id="sigImgCont"
                 className="sigImgCont"
+                data-testid="label"
                 style={{
                     left: `calc(50% - ${imgSizeW * 0.5}px)`,
                     top: `calc(50% - ${imgSizeH * 0.5}px)`,
@@ -99,10 +100,12 @@ const SignatureImgSlot = (props: imgSlot) => {
                 <input
                     id="retrieveFile"
                     className="sigSelect"
+                    data-testid="manual"
                     type="file"
                     name="upload"
                     accept={props.acceptedFormat}
                     onChange={e => {
+                        console.log("drop event triggered with data: ", e )
                         getFileInfo(e.target.files!, (res: any | null) => {
                             props.updateImages(1, e.target.files![0], res.width, res.height);
                             e.target.value = ''
@@ -122,7 +125,7 @@ const SignatureImgSlot = (props: imgSlot) => {
                         height={sizeHBench}
                     />
                 </div> : null}
-            <span className="SaveAndClose" onClick={() => { sendAndClose() }} >Save and close</span>
+            <span className="save" onClick={() => { sendAndClose() }} >Save and close</span>
         </>
     )
 }

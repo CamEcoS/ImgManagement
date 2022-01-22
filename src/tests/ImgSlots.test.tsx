@@ -12,30 +12,6 @@ class AppService {
     }
   }
 
-  function MockFile() { };
-//@ts-ignore
-MockFile.prototype.create = function (name, size, mimeType) {
-    name = name || "mock.txt";
-    size = size || 1024;
-    mimeType = mimeType || 'plain/txt';
-//@ts-ignore
-    function range(count) {
-        var output = "";
-        for (var i = 0; i < count; i++) {
-            output += "a";
-        }
-        return output;
-    }
-
-    var blob = new Blob([range(size)], { type: mimeType });
-    //@ts-ignore
-    blob.lastModifiedDate = new Date();
-    //@ts-ignore
-    blob.name = name;
-
-    return blob;
-};
-
 let mandTitles=["Loft", "Pipes", "Floor"]
 let optAmount = 10
 const limit = optAmount + mandTitles.length -1
@@ -52,8 +28,6 @@ const obj = { mandatoryTitles: mandTitles,
 
 
 describe("All image rendered successfully with same default image, ability to upload and drop ",()=>{
-
-    const someValues = [{ name: 'teresa teng' }];
 
     it("has attributed all mandatory types in array and amount of optional types with src = default Image for all if no image added to slot",()=>{
     const {getByTestId, queryByTestId, rerender} = render(<ImgSlot attribute={obj}/>)

@@ -41,17 +41,6 @@ const SignatureCanvas = (props: SigCanvProps) => {
     ]
 
 
-    useEffect(() => {
-        //@ts-ignore
-        function updateSignatureSize() {
-            //@ts-ignore
-            if (sessionStorage.getItem('signatureDraw') && JSON.parse(sessionStorage.getItem('signatureDraw')!).length > 0 && sigCanvas.current._sigPad) (sigCanvas.current! as SignaturePad).fromData(JSON.parse(sessionStorage.getItem('signatureDraw')!))
-
-        }
-        window.addEventListener('resize', updateSignatureSize);
-        return () => window.removeEventListener('resize', updateSignatureSize);
-    }, [])
-
     useLayoutEffect(() => {
         function updateSize() {
             setSize([window.innerWidth, window.innerHeight]);
@@ -62,6 +51,8 @@ const SignatureCanvas = (props: SigCanvProps) => {
     }, []);
 
     useEffect(() => {
+        //@ts-ignore
+        if (sessionStorage.getItem('signatureDraw') && JSON.parse(sessionStorage.getItem('signatureDraw')!).length > 0 && sigCanvas.current._sigPad) {(sigCanvas.current! as SignaturePad).fromData(JSON.parse(sessionStorage.getItem('signatureDraw')!))}
         props.sizeBenchUpdate(sizeWBench, sizeHBench)
     }, [size])
 
@@ -86,7 +77,7 @@ const SignatureCanvas = (props: SigCanvProps) => {
             if (sessionStorage.getItem('signatureDraw')) sessionStorage.removeItem('signatureDraw');
             (sigCanvas.current! as SignaturePad).clear(); set(!flag)
         }
-        else { sessionStorage.getItem('signatureType'); setTypeValue("") }
+        else  setTypeValue("") 
 
     }
 
@@ -193,13 +184,13 @@ const SignatureCanvas = (props: SigCanvProps) => {
             </div>
             <div className="sigModeCont">
                 {
-                    sigOptions.map(el => {
+                    sigOptions.map((el,i) => {
                         return (
-                            <div
+                            <div key={i}
                                 className="optionDiv"
                                 style={{ backgroundColor: mode === el.title ? "white" : "transparent" }}
                             >
-                                <img
+                                <img key={i}
                                     src={el.img}
                                     onClick={() => { setMode(el.title) }}
                                     className="sigOptions"

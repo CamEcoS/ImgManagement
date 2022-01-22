@@ -92,19 +92,6 @@
           height: 100%;
       }
 
-     
-
-      .save{
-        position: relative;
-        
-        top:29.5%;
-          left: calc(90% - 52.5px);
-          width:105px;
-          border-radius: 55px;
-          padding: 10px;
-          cursor: pointer;
-          color:white
-      }
 
       .clear{
         position: absolute;
@@ -115,7 +102,7 @@
 
     }
 
-    .SaveAndClose{
+    .save{
         position: absolute;
         top:107.5%;
         left: calc(90% - 52.5px);
@@ -156,5 +143,3 @@
             width:30px;
             height:30px;
     }
-
-    

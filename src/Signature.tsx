@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import EdImg from './assets/edit-image.png'
 import { SigMain, sigImgProp, bench } from './genTypes'
 import Image from 'next/image'
@@ -47,6 +47,7 @@ const Signature = (props: property) => {
     ]
     const selectedOpt = useRef<string>(props.attribute.startingOptions)
 
+
     useEffect(() => {
         return () => {
             if (sessionStorage.getItem('signatureDraw')) sessionStorage.removeItem('signatureDraw')
@@ -54,11 +55,15 @@ const Signature = (props: property) => {
         }
     }, [])
 
+    useEffect(() => {
+       console.log("ic87890-", img!.cropData !== null ? img!.cropData?.data : img!.data !== null ? img!.data?.data : props.attribute.defaultFile)
+    }, [img])
+
     function updateImages(index: number | undefined, val: File | File[] | string | null, width?: number, height?: number, name?: string): void {
         if (index !== undefined) {
             if (val !== undefined) {
                 if (val !== null) {
-                    if(typeof val === "string")   setImg({ ...img, cropData:{data:val, width: width!, height:height!} })
+                    if(typeof val === "string") setImg({ ...img, cropData:{data:val, width: width!, height:height!} })
                         else getBase64(val, (t: any) => setImg({ data: { data: t, width: width!, height: height! }, cropData: null, title: img.title }))
                 }
                 else setImg({ data: val, cropData: val, title: img.title })
@@ -88,19 +93,20 @@ const Signature = (props: property) => {
                     top: `${typeof props.attribute.contHeight === "number" ? 50 - props.attribute.contHeight! * 0.5 : 0}%`
                 }}>
                 <div className="sigOptionCont">
-                    {options.map(el => {
+                    {options.map((el,i) => {
                         return (
-                            <div
+                            <div key={i}
                                 className="optionDiv"
                                 onClick={() => { changeOptions(el.title, el.enabled) }}
                                 style={{ backgroundColor: selectedOpt.current === el.title ? "white" : "transparent" }}
                             >
-                                <span
+                                <span key={i}
                                  className="optionSpan"
                                  onMouseEnter={_ => { setHoveredTitle(el.title) }}
                                  onMouseLeave={_ => { setHoveredTitle(null) }}
                                  >
-                                    <Image src={el.image}
+                                    <Image key={i}
+                                        src={el.image}
                                         unoptimized
                                         width={35}
                                         height={35} />
